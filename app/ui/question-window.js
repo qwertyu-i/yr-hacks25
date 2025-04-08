@@ -1,9 +1,7 @@
 'use client';
 
 import { useState, useEffect } from "react";
-
-// Create a global array to store answers
-let answersArray = [];
+import { getAllAnswers } from "../utils/answers";
 
 export default function QuestionWindow( { question, placeHolder, clickFunc, questionId } )
 {
@@ -16,11 +14,25 @@ export default function QuestionWindow( { question, placeHolder, clickFunc, ques
 	
 	// Function to handle submission
 	const handleSubmit = () => {
-		// Store the answer in the array with its question ID
-		answersArray[questionId] = inputValue;
+		// Get the current answers array
+		const answersArray = getAllAnswers();
+		
+		// Check if this is the past work experience question (questionId 6)
+		if (questionId === 6) {
+			// Split the input by commas and trim whitespace
+			const workExperiences = inputValue.split(',').map(item => item.trim());
+			// Store the array in the answers array
+			answersArray[questionId] = workExperiences;
+		} else {
+			// For other questions, store the input value as is
+			answersArray[questionId] = inputValue;
+		}
 		
 		// Log the current state of the array (for debugging)
 		console.log("Answers array:", answersArray);
+		
+		// Clear the input field after submission
+		setInputValue("");
 		
 		// Call the original click function if provided
 		if (clickFunc) {
@@ -55,6 +67,3 @@ export default function QuestionWindow( { question, placeHolder, clickFunc, ques
     </div>
 	);
 }
-
-// Export the answers array so it can be accessed by other files
-export { answersArray };

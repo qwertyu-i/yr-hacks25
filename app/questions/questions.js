@@ -13,23 +13,21 @@ const questionList = {
 			"placeholder": "Ex:Anytown Secondary School"
 		},
 		{
-			"question": "Strengths?",
-			"placeholder": "Ex:Good at Math"
+			"question": "What position are you applying for?",
+			"placeholder": "Ex:Software Developer"
 		},
 		{
-			"question": "Weaknesses?",
-			"placeholder": "Ex:Poor at English"
+			"question": "What hard skills do you have for this position?",
+			"placeholder": "Ex:JavaScript, React, Node.js"
 		},
 		{
-			"question": "What Field is this for?",
-			"placeholder": "Ex:Retail, Tech, etc"
+			"question": "What past job/volunteer experience relates most to this position?",
+			"placeholder": "Ex:Software Developer at Tech Corp, blank for none"
 		},
 		{
-			"question": "Past Work Experience",
-			"placeholder": "Ex:2 years at Anycompany"
-		},
-		
-		
+			"question": "How long did you work at this job?",
+			"placeholder": "Ex:2 years"
+		}
 	]
 };
 

@@ -50,12 +50,12 @@ export function generateGeminiPrompt() {
     // Handle past job/volunteer experience (which might be an array)
     if (answers[6]) {
         if (Array.isArray(answers[6])) {
-            prompt += `- **Past Relevant Experience**: ${answers[6].join(", ") || "Not provided"}\n`;
+            prompt += `- **Time In Role**: ${answers[6].join(", ") || "Not provided"}\n`;
         } else {
-            prompt += `- **Past Relevant Experience**: ${answers[6] || "Not provided"}\n`;
+            prompt += `- **Time In Role**: ${answers[6] || "Not provided"}\n`;
         }
     } else {
-        prompt += `- **Past Relevant Experience**: Not provided\n`;
+        prompt += `- **Time In Role**: Not provided\n`;
     }
     
     // Advanced Questions (if available)

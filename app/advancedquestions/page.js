@@ -6,6 +6,8 @@ import { getAllAnswers, generateGeminiPrompt, getGeneratedPrompt } from "../util
 import Link from "next/link";
 
 export default function AdvancedQuestionsPage() {
+
+  require('dotenv').config()
   const [questionIndex, setQuestion] = useState(0);
   const [showResults, setShowResults] = useState(false);
   const [advancedQuestions, setAdvancedQuestions] = useState([]);

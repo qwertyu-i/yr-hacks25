@@ -2,41 +2,62 @@
 
 import { useState } from "react";
 import questionList from "./questions";
+import QuestionWindow from "../ui/question-window";
+import { getAllAnswers } from "../utils/answers";
 
 export default function Page()
 {
 	const [questionIndex, setQuestion] = useState(0);
+	const [showResults, setShowResults] = useState(false);
 
 	function handleSubmit()
 	{
-		console.log("going to question " + questionIndex);
-		setQuestion(questionIndex + 1);
+		// Move to the next question or show results if we're at the end
+		if (questionIndex < questionList.questions.length - 1) {
+			setQuestion(questionIndex + 1);
+		} else {
+			// We've reached the end of questions, show results
+			setShowResults(true);
+			console.log("All answers:", getAllAnswers());
+		}
 	}
 
+	// If we're showing results, display them
+	if (showResults) {
+		return (
+			<div className="min-h-screen flex flex-col items-center justify-center bg-[#282828] p-8">
+				<div className="bg-[#3c3836] rounded-2xl p-8 shadow-xl w-full max-w-4xl transform transition-all duration-300 hover:shadow-2xl border-2 border-[#b8bb26]">
+					<h1 className="text-3xl font-bold text-[#ebdbb2] mb-6">Your Resume Information</h1>
+					<div className="space-y-4">
+						{questionList.questions.map((q, index) => (
+							<div key={index} className="border-b border-[#504945] pb-4">
+								<h2 className="text-xl font-medium text-[#b8bb26]">{q.question}</h2>
+								<p className="text-[#ebdbb2] mt-2">{getAllAnswers()[index] || "Not provided"}</p>
+							</div>
+						))}
+					</div>
+					<div className="mt-8 flex justify-end">
+						<button 
+							className="bg-[#b8bb26] hover:bg-[#98971a] text-[#282828] font-medium py-2.5 px-6 rounded-full focus:outline-none focus:ring-2 focus:ring-[#b8bb26] focus:ring-opacity-50 transform transition-all duration-200 hover:shadow-md active:scale-95"
+							onClick={() => window.location.href = "/"}
+						>
+							Back to Home
+						</button>
+					</div>
+				</div>
+			</div>
+		);
+	}
+
+	// Show the current question
 	return (
 		<main>
-			<div className="fixed top-0 left-0 w-full h-full flex flex-col justify-center items-center bg-[#282828] backdrop-blur-sm transition-all duration-300 ease-in-out z-50">
-    	<div className="bg-[#3c3836] rounded-2xl p-8 shadow-xl w-4/5 md:w-2/3 lg:w-1/2 max-w-md transform transition-all duration-300 hover:shadow-2xl border-2 border-[#b8bb26]">
-    		<div className="mb-8">
-    			<p className="text-2xl font-light text-[#ebdbb2] tracking-wide">{questionList.questions[questionIndex].question}</p>
-    		</div>
-    		<div className="mb-8">
-    			<input
-    				type="text"
-    				className="w-full px-4 py-3 border-b border-[#504945] rounded-none bg-[#3c3836] focus:outline-none focus:border-[#b8bb26] transition-all duration-200 text-[#ebdbb2] placeholder-[#928374]"
-    				placeholder={questionList.questions[questionIndex].placeholder}
-    			/>
-    		</div>
-    		<div className="flex justify-end">
-    			<button
-    				className="bg-[#b8bb26] hover:bg-[#98971a] text-[#282828] font-medium py-2.5 px-6 rounded-full focus:outline-none focus:ring-2 focus:ring-[#b8bb26] focus:ring-opacity-50 transform transition-all duration-200 hover:shadow-md active:scale-95"
-    				onClick={handleSubmit}
-    			>
-    				Submit
-    			</button>
-    		</div>
-    	</div>
-    </div>
+			<QuestionWindow 
+				question={questionList.questions[questionIndex].question}
+				placeHolder={questionList.questions[questionIndex].placeholder}
+				clickFunc={handleSubmit}
+				questionId={questionIndex}
+			/>
 		</main>
 	);
 }

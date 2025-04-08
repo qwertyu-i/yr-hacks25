@@ -5,21 +5,21 @@ import { useState } from "react";
 export default function QuestionWindow( { question, placeHolder, clickFunc } )
 {
 	return (
-	<div className="fixed top-0 left-0 w-full h-full flex flex-col justify-center items-center bg-gray-100">
-    	<div className="bg-white rounded-lg border-2 border-black p-8 shadow-lg w-4/5 md:w-2/3 lg:w-1/2">
-    		<div className="mb-4">
-    			<p className="text-lg font-semibold text-gray-800">{question}</p>
+	<div className="fixed top-0 left-0 w-full h-full flex flex-col justify-center items-center bg-black/30 backdrop-blur-sm transition-all duration-300 ease-in-out z-50">
+    	<div className="bg-white rounded-2xl p-8 shadow-xl w-4/5 md:w-2/3 lg:w-1/2 max-w-md transform transition-all duration-300 hover:shadow-2xl">
+    		<div className="mb-8">
+    			<p className="text-2xl font-light text-gray-800 tracking-wide">{question}</p>
     		</div>
-    		<div className="mb-4">
+    		<div className="mb-8">
     			<input
     				type="text"
-    				className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500"
+    				className="w-full px-4 py-3 border-b border-gray-200 rounded-none bg-transparent focus:outline-none focus:border-blue-500 transition-all duration-200 text-gray-700 placeholder-gray-400"
     				placeholder={placeHolder}
     			/>
     		</div>
-    		<div>
+    		<div className="flex justify-end">
     			<button
-    				className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
+    				className="bg-blue-500 hover:bg-blue-600 text-white font-medium py-2.5 px-6 rounded-full focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50 transform transition-all duration-200 hover:shadow-md active:scale-95"
     				onClick={clickFunc}
     			>
     				Submit

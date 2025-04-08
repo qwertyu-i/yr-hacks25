@@ -8,7 +8,9 @@ import Link from "next/link";
 
 export default function AdvancedQuestionsPage() {
 
-  require('dotenv').config()
+  require('dotenv').config();
+  console.log("process");
+  console.log(process.env);
   const [questionIndex, setQuestion] = useState(0);
   const [showResults, setShowResults] = useState(false);
   const [advancedQuestions, setAdvancedQuestions] = useState([]);

@@ -10,7 +10,7 @@ import { GoogleGenAI } from '@google/genai';
 export async function sendPromptToGemini() {
   try {
     // Get the API key from environment variables
-    const APIKEY = process.env.API_KEY;
+    const APIKEY = process.env.NEXT_PUBLIC_API_KEY;
 
 	const ai = new GoogleGenAI({ apiKey: APIKEY });
     

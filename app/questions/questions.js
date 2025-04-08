@@ -13,10 +13,6 @@ const questionList = {
 			"placeholder": "Ex:Anytown Secondary School"
 		},
 		{
-			"question": "Triggers",
-			"placeholder": "Ex:Loud Noises"
-		},
-		{
 			"question": "Strengths?",
 			"placeholder": "Ex:Good at Math"
 		},

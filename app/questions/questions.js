@@ -1,13 +1,39 @@
 const questionList = {
 	"questions": [
 		{
-			"question": "What field is this for?",
-			"placeholder": "Retail, tech, etc"
+			"question": "Name(First and Last)?",
+			"placeholder": "Ex:John Doe"
 		},
 		{
-			"question": "Test2",
-			"placeholder": "this is the second question"
-		}
+			"question": "Age",
+			"placeholder": "Ex:20"
+		},
+		{
+			"question": "Education",
+			"placeholder": "Ex:Anytown Secondary School"
+		},
+		{
+			"question": "Triggers",
+			"placeholder": "Ex:Loud Noises"
+		},
+		{
+			"question": "Strengths?",
+			"placeholder": "Ex:Good at Math"
+		},
+		{
+			"question": "Weaknesses?",
+			"placeholder": "Ex:Poor at English"
+		},
+		{
+			"question": "What Field is this for?",
+			"placeholder": "Ex:Retail, Tech, etc"
+		},
+		{
+			"question": "Past Work Experience",
+			"placeholder": "Ex:2 years at Anycompany"
+		},
+		
+		
 	]
 };
 

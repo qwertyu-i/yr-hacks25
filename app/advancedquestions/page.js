@@ -5,6 +5,7 @@ import QuestionWindow from "../ui/question-window";
 import { getAllAnswers, generateGeminiPrompt, getGeneratedPrompt } from "../utils/answers";
 import { sendPromptToGemini } from "../utils/gemini";
 import Link from "next/link";
+import ReactMarkdown from 'react-markdown';
 
 export default function AdvancedQuestionsPage() {
 
@@ -155,7 +156,30 @@ export default function AdvancedQuestionsPage() {
               </div>
             ) : geminiResponse ? (
               <div className="bg-[#282828] p-6 rounded-lg">
-                <div className="prose prose-invert max-w-none" dangerouslySetInnerHTML={{ __html: geminiResponse.replace(/\n/g, '<br />') }} />
+                <div className="prose prose-invert max-w-none">
+                  <ReactMarkdown
+                    components={{
+                      h1: ({node, ...props}) => <h1 className="text-3xl font-bold mb-4 text-[#b8bb26]" {...props} />,
+                      h2: ({node, ...props}) => <h2 className="text-2xl font-bold mb-3 text-[#b8bb26]" {...props} />,
+                      h3: ({node, ...props}) => <h3 className="text-xl font-bold mb-2 text-[#b8bb26]" {...props} />,
+                      h4: ({node, ...props}) => <h4 className="text-lg font-bold mb-2 text-[#b8bb26]" {...props} />,
+                      p: ({node, ...props}) => <p className="mb-4 text-[#ebdbb2] leading-relaxed" {...props} />,
+                      ul: ({node, ...props}) => <ul className="list-disc pl-6 mb-4 text-[#ebdbb2] space-y-2" {...props} />,
+                      ol: ({node, ...props}) => <ol className="list-decimal pl-6 mb-4 text-[#ebdbb2] space-y-2" {...props} />,
+                      li: ({node, ...props}) => <li className="mb-2" {...props} />,
+                      strong: ({node, ...props}) => <strong className="font-bold text-[#b8bb26]" {...props} />,
+                      em: ({node, ...props}) => <em className="italic" {...props} />,
+                      code: ({node, inline, ...props}) => 
+                        inline ? 
+                          <code className="bg-[#3c3836] px-1 py-0.5 rounded text-[#ebdbb2]" {...props} /> :
+                          <code className="block bg-[#3c3836] p-2 rounded mb-4 text-[#ebdbb2] overflow-x-auto" {...props} />,
+                      blockquote: ({node, ...props}) => <blockquote className="border-l-4 border-[#b8bb26] pl-4 italic my-4 text-[#ebdbb2]" {...props} />,
+                      hr: ({node, ...props}) => <hr className="my-6 border-[#504945]" {...props} />,
+                    }}
+                  >
+                    {geminiResponse}
+                  </ReactMarkdown>
+                </div>
                 <div className="mt-6 flex justify-end">
                   <button 
                     onClick={() => {

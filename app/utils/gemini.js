@@ -31,7 +31,19 @@ export async function sendPromptToGemini() {
       contents: prompt,
     });
     
-    return generatedText.text;
+    // Format the response as proper markdown
+    const response = generatedText.text;
+    console.log('Raw Gemini response:', response);
+    
+    // Ensure proper line breaks and markdown formatting
+    const formattedResponse = response
+      .split('\n')
+      .map(line => line.trim())
+      .join('\n')
+      .replace(/\n{3,}/g, '\n\n'); // Replace multiple newlines with double newlines
+    
+    console.log('Formatted response:', formattedResponse);
+    return formattedResponse;
   } catch (error) {
     console.error('Error sending prompt to Gemini:', error);
     throw error;

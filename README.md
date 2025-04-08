@@ -1,5 +1,5 @@
 # Luke (Jialiang) and Alex's submission for YRHacks 2025!
-Tool to help teenagers and young adults brainstorm points to put on their resume from the usually little experience they have.\
+Tool to help teenagers and young adults brainstorm points to put on their resume from the usually little experience they have.
 
 # Build instructions
 1. Copy the repo

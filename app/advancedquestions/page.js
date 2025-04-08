@@ -3,6 +3,7 @@
 import { useState, useEffect } from "react";
 import QuestionWindow from "../ui/question-window";
 import { getAllAnswers, generateGeminiPrompt, getGeneratedPrompt } from "../utils/answers";
+import { sendPromptToGemini } from "../utils/gemini";
 import Link from "next/link";
 
 export default function AdvancedQuestionsPage() {
@@ -12,6 +13,9 @@ export default function AdvancedQuestionsPage() {
   const [showResults, setShowResults] = useState(false);
   const [advancedQuestions, setAdvancedQuestions] = useState([]);
   const [position, setPosition] = useState("");
+  const [geminiResponse, setGeminiResponse] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
+  const [error, setError] = useState("");
   
   // Generate advanced questions based on the first half answers
   useEffect(() => {
@@ -65,7 +69,7 @@ export default function AdvancedQuestionsPage() {
     setAdvancedQuestions(dynamicQuestions);
   }, []);
 
-  function handleSubmit() {
+  async function handleSubmit() {
     // Move to the next question or show results if we're at the end
     if (questionIndex < advancedQuestions.length - 1) {
       setQuestion(questionIndex + 1);
@@ -77,6 +81,19 @@ export default function AdvancedQuestionsPage() {
       // Generate the prompt for Gemini
       generateGeminiPrompt();
       console.log("Generated prompt:", getGeneratedPrompt());
+      
+      // Send the prompt to Gemini
+      try {
+        setIsLoading(true);
+        setError("");
+        const response = await sendPromptToGemini();
+        setGeminiResponse(response);
+      } catch (err) {
+        console.error("Error getting Gemini response:", err);
+        setError(err.message || "Failed to generate resume. Please try again.");
+      } finally {
+        setIsLoading(false);
+      }
     }
   }
 
@@ -102,6 +119,68 @@ export default function AdvancedQuestionsPage() {
               </div>
             ))}
           </div>
+          
+          {/* Gemini Response Section */}
+          <div className="mt-8 border-t border-[#504945] pt-6">
+            <h2 className="text-2xl font-bold text-[#b8bb26] mb-4">AI-Generated Resume</h2>
+            
+            {isLoading ? (
+              <div className="flex justify-center items-center py-8">
+                <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-[#b8bb26]"></div>
+                <p className="text-[#ebdbb2] ml-4">Generating your resume...</p>
+              </div>
+            ) : error ? (
+              <div className="bg-[#cc241d] text-[#ebdbb2] p-4 rounded-lg">
+                <p className="font-bold">Error:</p>
+                <p>{error}</p>
+                <button 
+                  onClick={async () => {
+                    try {
+                      setIsLoading(true);
+                      setError("");
+                      const response = await sendPromptToGemini();
+                      setGeminiResponse(response);
+                    } catch (err) {
+                      setError(err.message || "Failed to generate resume. Please try again.");
+                    } finally {
+                      setIsLoading(false);
+                    }
+                  }}
+                  className="mt-4 bg-[#b8bb26] hover:bg-[#98971a] text-[#282828] font-medium py-2 px-4 rounded-full"
+                >
+                  Try Again
+                </button>
+              </div>
+            ) : geminiResponse ? (
+              <div className="bg-[#282828] p-6 rounded-lg">
+                <div className="prose prose-invert max-w-none" dangerouslySetInnerHTML={{ __html: geminiResponse.replace(/\n/g, '<br />') }} />
+                <div className="mt-6 flex justify-end">
+                  <button 
+                    onClick={() => {
+                      // Create a blob from the markdown text
+                      const blob = new Blob([geminiResponse], { type: 'text/markdown' });
+                      const url = URL.createObjectURL(blob);
+                      
+                      // Create a temporary link and trigger download
+                      const a = document.createElement('a');
+                      a.href = url;
+                      a.download = `${position.replace(/\s+/g, '_')}_resume.md`;
+                      document.body.appendChild(a);
+                      a.click();
+                      
+                      // Clean up
+                      document.body.removeChild(a);
+                      URL.revokeObjectURL(url);
+                    }}
+                    className="bg-[#b8bb26] hover:bg-[#98971a] text-[#282828] font-medium py-2 px-4 rounded-full"
+                  >
+                    Download Resume
+                  </button>
+                </div>
+              </div>
+            ) : null}
+          </div>
+          
           <div className="mt-8 flex justify-end">
             <Link href="/">
               <button 
